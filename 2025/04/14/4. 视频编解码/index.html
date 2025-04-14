@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>视频编解码 | 典例一的博客</title><meta name="author" content="典例一"><meta name="copyright" content="典例一"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="A generic codec">
+<meta property="og:type" content="article">
+<meta property="og:title" content="视频编解码">
+<meta property="og:url" content="https://longanwang-cs.github.io/2025/04/14/4.%20%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81/">
+<meta property="og:site_name" content="典例一的博客">
+<meta property="og:description" content="A generic codec">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://longanwang-cs.github.io/img/04/04.png">
+<meta property="article:published_time" content="2025-04-14T06:50:43.000Z">
+<meta property="article:modified_time" content="2025-04-14T07:02:46.112Z">
+<meta property="article:author" content="典例一">
+<meta property="article:tag" content="科研， Video Streaming">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://longanwang-cs.github.io/img/04/04.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "视频编解码",
+  "url": "https://longanwang-cs.github.io/2025/04/14/4.%20%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81/",
+  "image": "https://longanwang-cs.github.io/img/04/04.png",
+  "datePublished": "2025-04-14T06:50:43.000Z",
+  "dateModified": "2025-04-14T07:02:46.112Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "典例一",
+      "url": "https://longanwang-cs.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://longanwang-cs.github.io/2025/04/14/4.%20%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '视频编解码',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/04/04.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">典例一的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">视频编解码</span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">视频编解码</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-14T06:50:43.000Z" title="发表于 2025-04-14 14:50:43">2025-04-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-14T07:02:46.112Z" title="更新于 2025-04-14 15:02:46">2025-04-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Video-Streaming/">Video Streaming</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="A-generic-codec"><a href="#A-generic-codec" class="headerlink" title="A generic codec"></a>A generic codec</h1><h2 id="1st-step-picture-partitioning"><a href="#1st-step-picture-partitioning" class="headerlink" title="1st step - picture partitioning"></a>1st step - picture partitioning</h2><p>The first step is to divide the frame into several partitions, sub-partitions and beyond.</p>
+<p>Work the predictions more precisely</p>
+<ul>
+<li>smaller partitions for the small moving parts </li>
+<li>bigger partitions to a static background.</li>
+</ul>
+<p>Usually, the CODECs organize these partitions into:</p>
+<ul>
+<li>slices (or tiles)<ul>
+<li>macro (or coding tree units) <ul>
+<li>sub-partitions.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>frames are typed：</p>
+<ul>
+<li>I-Slice</li>
+<li>B-Slice</li>
+<li>I-Macroblock </li>
+<li>and etc.</li>
+</ul>
+<h2 id="2nd-step-predictions"><a href="#2nd-step-predictions" class="headerlink" title="2nd step - predictions"></a>2nd step - predictions</h2><p>Once we have the partitions, we can make predictions over them. For the inter prediction, we need to send the motion vectors and the residual and the intra prediction we’ll send the prediction direction and the residual as well.</p>
+<ul>
+<li>Temporal redundancy (inter prediction)</li>
+<li>Spatial redundancy (intra prediction)</li>
+</ul>
+<h2 id="3rd-step-transform"><a href="#3rd-step-transform" class="headerlink" title="3rd step - transform"></a>3rd step - transform</h2><p>After we get the residual block (predicted partition - real partition), we can transform it in a way that lets us know which pixels we can discard while keeping the overall quality. There are some transformations for this exact behavior.</p>
+<p>Although there are other transformations, we’ll look more closely at the discrete cosine transform (DCT). The DCT main features are:</p>
+<ul>
+<li>converts blocks of pixels into  same-sized blocks of frequency coefficients.</li>
+<li>compacts energy, making it easy to eliminate spatial redundancy.</li>
+<li>is reversible, a.k.a. you can reverse to pixels.</li>
+</ul>
+<p>We might notice that the first coefficient is very different from all the others. This first coefficient is known as the DC coefficient which represents all the samples in the input array, something similar to an average.</p>
+<p>This block of coefficients has an interesting property which is that it separates the high-frequency components from the low frequency.</p>
+<p>In an image, most of the energy will be concentrated in the lower frequencies. </p>
+<p>Thus，if we transform an image into its frequency components and throw away the higher frequency coefficients, we can reduce the amount of data needed to describe the image without sacrificing too much image quality.</p>
+<h2 id="4th-step-quantization"><a href="#4th-step-quantization" class="headerlink" title="4th step - quantization"></a>4th step - quantization</h2><p>When we throw away some of the coefficients, in the last step (transform), we kinda did some form of quantization. This step is where we chose to lose information (the lossy part) or in simple terms, we’ll quantize coefficients to achieve compression.</p>
+<p>How can we quantize a block of coefficients? One simple method would be a uniform quantization, where we take a block, divide it by a single value (10) and round this value.</p>
+<p>How can we reverse (re-quantize) this block of coefficients? We can do that by multiplying the same value (10) we divide it first.</p>
+<p>This approach isn’t the best because it doesn’t take into account the importance of each coefficient, we could use a matrix of quantizers instead of a single value, this matrix can exploit the property of the DCT, quantizing most the bottom right and less the upper left, the JPEG uses a similar approach, you can check source code to see this matrix.</p>
+<h2 id="5th-step-entropy-coding"><a href="#5th-step-entropy-coding" class="headerlink" title="5th step - entropy coding"></a>5th step - entropy coding</h2><p>After we quantized the data (image blocks&#x2F;slices&#x2F;frames) we still can compress it in a lossless way. There are many ways (algorithms) to compress data. We’re going to briefly experience some of them, for a deeper understanding you can read the amazing book Understanding Compression: Data Compression for Modern Developers.</p>
+<ul>
+<li>VLC coding:</li>
+</ul>
+<p>Let’s suppose we have a stream of the symbols: a, e, r and t and their probability (from 0 to 1) is represented by this table.</p>
+<p>We can assign unique binary codes (preferable small) to the most probable and bigger codes to the least probable ones.</p>
+<p>Let’s compress the stream eat, assuming we would spend 8 bits for each symbol, we would spend 24 bits without any compression. But in case we replace each symbol for its code we can save space.</p>
+<p>The first step is to encode the symbol e which is 10 and the second symbol is a which is added (not in a mathematical way) [10][0] and finally the third symbol t which makes our final compressed bitstream to be [10][0][1110] or 1001110 which only requires 7 bits (3.4 times less space than the original).</p>
+<p>Notice that each code must be a unique prefixed code Huffman can help you to find these numbers. Though it has some issues there are video codecs that still offers this method and it’s the algorithm for many applications which requires compression.</p>
+<p>Both encoder and decoder must know the symbol table with its code, therefore, you need to send the table too.</p>
+<ul>
+<li>Arithmetic coding:</li>
+</ul>
+<p>Let’s suppose we have a stream of the symbols: a, e, r, s and t and their probability is represented by this table.</p>
+<p>With this table in mind, we can build ranges containing all the possible symbols sorted by the most frequents.</p>
+<p>Now let’s encode the stream eat, we pick the first symbol e which is located within the subrange 0.3 to 0.6 (but not included) and we take this subrange and split it again using the same proportions used before but within this new range.</p>
+<p>Let’s continue to encode our stream eat, now we take the second symbol a which is within the new subrange 0.3 to 0.39 and then we take our last symbol t and we do the same process again and we get the last subrange 0.354 to 0.372.</p>
+<p>We just need to pick a number within the last subrange 0.354 to 0.372, let’s choose 0.36 but we could choose any number within this subrange. With only this number we’ll be able to recover our original stream eat. If you think about it, it’s like if we were drawing a line within ranges of ranges to encode our stream.</p>
+<p>The reverse process (A.K.A. decoding) is equally easy, with our number 0.36 and our original range we can run the same process but now using this number to reveal the stream encoded behind this number.</p>
+<p>With the first range, we notice that our number fits at the slice, therefore, it’s our first symbol, now we split this subrange again, doing the same process as before, and we’ll notice that 0.36 fits the symbol a and after we repeat the process we came to the last symbol t (forming our original encoded stream eat).</p>
+<p>Both encoder and decoder must know the symbol probability table, therefore you need to send the table.</p>
+<h2 id="6th-step-bitstream-format"><a href="#6th-step-bitstream-format" class="headerlink" title="6th step - bitstream format"></a>6th step - bitstream format</h2><p>After we did all these steps we need to pack the compressed frames and context to these steps. We need to explicitly inform to the decoder about the decisions taken by the encoder, such as bit depth, color space, resolution, predictions info (motion vectors, intra prediction direction), profile, level, frame rate, frame type, frame number and much more.</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://longanwang-cs.github.io">典例一</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://longanwang-cs.github.io/2025/04/14/4.%20%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81/">https://longanwang-cs.github.io/2025/04/14/4.%20%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://longanwang-cs.github.io" target="_blank">典例一的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%A7%91%E7%A0%94%EF%BC%8C-Video-Streaming/">科研， Video Streaming</a></div><div class="post-share"><div class="social-share" data-image="/img/04/04.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/03/25/3.%20IPAL/" title="加入实验室"><img class="cover" src="/img/03.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">加入实验室</div></div><div class="info-2"><div class="info-item-1">第一学期初我申请了导师实验室的入门许可，一直拖拖拉拉没有正式收拾出一个工位。</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/self.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">典例一</div><div class="author-info-description"> 一个分享想法与故事的空间</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" href="https://longanwang-cs.github.io/"><i class="fas fa-home"></i><span>主页</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:wanglongan1007@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">你好，我的朋友！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#A-generic-codec"><span class="toc-number">1.</span> <span class="toc-text">A generic codec</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1st-step-picture-partitioning"><span class="toc-number">1.1.</span> <span class="toc-text">1st step - picture partitioning</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2nd-step-predictions"><span class="toc-number">1.2.</span> <span class="toc-text">2nd step - predictions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3rd-step-transform"><span class="toc-number">1.3.</span> <span class="toc-text">3rd step - transform</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4th-step-quantization"><span class="toc-number">1.4.</span> <span class="toc-text">4th step - quantization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5th-step-entropy-coding"><span class="toc-number">1.5.</span> <span class="toc-text">5th step - entropy coding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6th-step-bitstream-format"><span class="toc-number">1.6.</span> <span class="toc-text">6th step - bitstream format</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/04/14/4.%20%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81/" title="视频编解码"><img src="/img/04/04.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="视频编解码"/></a><div class="content"><a class="title" href="/2025/04/14/4.%20%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81/" title="视频编解码">视频编解码</a><time datetime="2025-04-14T06:50:43.000Z" title="发表于 2025-04-14 14:50:43">2025-04-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/25/3.%20IPAL/" title="加入实验室"><img src="/img/03.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="加入实验室"/></a><div class="content"><a class="title" href="/2025/03/25/3.%20IPAL/" title="加入实验室">加入实验室</a><time datetime="2025-03-25T11:05:46.000Z" title="发表于 2025-03-25 19:05:46">2025-03-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/19/2.%20%E5%8D%9A%E5%A3%AB%E7%94%B3%E8%AF%B7%E6%80%BB%E7%BB%93/" title="博士申请总结"><img src="/img/02.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博士申请总结"/></a><div class="content"><a class="title" href="/2025/03/19/2.%20%E5%8D%9A%E5%A3%AB%E7%94%B3%E8%AF%B7%E6%80%BB%E7%BB%93/" title="博士申请总结">博士申请总结</a><time datetime="2025-03-19T02:32:29.000Z" title="发表于 2025-03-19 10:32:29">2025-03-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/16/1.NGNE%E9%A1%B9%E7%9B%AE%E7%94%B3%E8%AF%B7/" title="NGNE项目申请"><img src="/img/01.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NGNE项目申请"/></a><div class="content"><a class="title" href="/2025/03/16/1.NGNE%E9%A1%B9%E7%9B%AE%E7%94%B3%E8%AF%B7/" title="NGNE项目申请">NGNE项目申请</a><time datetime="2025-03-16T14:02:42.000Z" title="发表于 2025-03-16 22:02:42">2025-03-16</time></div></div></div></div></div></div></main><footer id="footer" style="background: linear-gradient(to right, #3494e6, #ec6ead);"><div id="footer-wrap"><div class="copyright">&copy;2025 By 典例一</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
